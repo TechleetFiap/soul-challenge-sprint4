@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/techleet/:path*",
+      "destination": "https://techleet569602.onrender.com/techleet/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

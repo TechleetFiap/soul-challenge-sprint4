@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+
+  body {
+    @apply overflow-x-hidden bg-secondary font-sans text-text-light;
+  }
+
+  a {
+    @apply no-underline;
+  }
+}
+
+/* Animação do carrossel de palavras da Home */
+@layer utilities {
+  .animate-carrossel {
+    animation: carrossel 32s linear infinite;
+  }
+
+  .animate-carrossel:hover {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes carrossel {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
