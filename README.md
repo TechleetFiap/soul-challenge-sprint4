@@ -4,7 +4,7 @@
 
 Aplicação **SPA (Single Page Application)** do projeto Avatar Inteligente da SoulUp, desenvolvida na **Sprint 04** da disciplina Front-End Design Engineering. O "Avatar Inteligente" é o mascote digital da SoulUp, e os "Avatares Personalizáveis" permitem que cada usuário customize seu próprio avatar com acessórios desbloqueados pelo uso do aplicativo.
 
-Nesta etapa, o front-end consome a **API REST em Java** publicada na nuvem: é possível fazer login, consultar a loja de itens, ver o detalhe de cada item, comprar itens com os pontos do usuário e acompanhar o próprio perfil e inventário.
+Nesta etapa, o front-end consome a **API REST em Java (Domain Driven Design)** publicada na nuvem: é possível fazer login, consultar a loja de itens, ver o detalhe de cada item, comprar itens com os pontos do usuário e acompanhar o próprio perfil e inventário.
 
 ## Tecnologias utilizadas
 
@@ -34,13 +34,15 @@ soulup-techleet/
 │   │   ├── layout/               # Header (com login), Footer, Layout
 │   │   ├── loja/                 # ItemCard
 │   │   ├── membros/              # MembroCard
-│   │   └── ui/                   # Button, Card, Estados (loading, erro e vazio)
+│   │   ├── missoes/              # MissaoCard (com botão de concluir)
+│   │   ├── ui/                   # Button, Card, Estados (loading, erro e vazio)
+│   │   └── ErrorBoundary.tsx     # evita tela em branco em erros inesperados
 │   ├── context/                  # AuthContext (estado de login)
 │   ├── data/                     # dados estáticos (membros, faq, soluções)
 │   ├── hooks/                    # useApi, useAuth, usePageTitle
-│   ├── pages/                    # uma página por rota
+│   ├── pages/                    # uma página por rota (Home, Loja, Missões, Perfil...)
 │   ├── services/                 # apiClient (HTTP central) e techleetService (endpoints)
-│   ├── types/                    # tipos e interfaces (usuario, item, inventario, requisicao)
+│   ├── types/                    # tipos e interfaces (usuario, item, inventario, missao, requisicao)
 │   ├── App.tsx                   # definição das rotas
 │   ├── main.tsx                  # ponto de entrada
 │   └── index.css                 # diretivas do Tailwind e estilos globais
@@ -65,6 +67,10 @@ A API é consumida pelo `src/services/techleetService.ts`, que usa o cliente HTT
 | Consultar item | GET | `/techleet/item/{id}` | Detalhe do item |
 | Listar inventário | GET | `/techleet/inventario` | Loja e detalhe do item |
 | **Comprar item** | **POST** | `/techleet/inventario` | Detalhe do item |
+| Listar missões | GET | `/techleet/missao` | Missões |
+| Listar vínculos de missão | GET | `/techleet/missaoUsuario` | Missões |
+| **Vincular missão ao usuário** | **POST** | `/techleet/missaoUsuario` | Missões (ao concluir) |
+| **Concluir missão** | **PUT** | `/techleet/missaoUsuario/{id}` | Missões |
 
 Cada tela trata três estados, exibidos pelos componentes de `src/components/ui/Estados.tsx`:
 
@@ -86,6 +92,7 @@ As respostas são tipadas com interfaces em `src/types`, e o estado de cada requ
 | `/solucao/:id` | Detalhe de uma solução | Dinâmica (`useParams`) |
 | `/loja` | Loja de itens (listagem via API) | Estática |
 | `/loja/:id` | Detalhe do item e compra (via API) | Dinâmica (`useParams`) |
+| `/missoes` | Missões disponíveis, com botão de concluir (via API) | Estática |
 | `/login` | Entrada do usuário | Estática |
 | `/perfil` | Perfil e inventário (exige login) | Estática, protegida |
 | `/faq` | Perguntas frequentes | Estática |
@@ -104,7 +111,7 @@ npm install
 
 # 2. Criar o arquivo de variáveis de ambiente
 cp .env.example .env
-# mantenha VITE_API_URL=https://techleet569602.onrender.com
+# Para usar a API mantenha VITE_API_URL=https://techleet569602.onrender.com
 # (a API precisa estar rodando nessa porta)
 
 # 3. Rodar o servidor de desenvolvimento
@@ -117,8 +124,9 @@ http://localhost:5173
 
 ## Como usar
 
-- **Repositório no GitHub:** `https://github.com/TechleetFiap/soul-challenge-sprint4`
+- **Repositório no GitHub:** `https://github.com/DiogoPedrosoAlves/soulup-techleet`
 - **Vídeo de apresentação (YouTube):** `https://youtu.be/hh29Rvpot1c`
+- **Aplicação publicada (Vercel):** `soul-challenge-sprint4.vercel.app`
 - **API publicada (Render):** `https://techleet569602.onrender.com`
 
 Para testar a aplicação publicada, acesse o link da Vercel, abra **Entrar** no canto superior direito e use uma conta cadastrada na API. Depois, visite a **Loja** e escolha um item para comprar.
