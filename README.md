@@ -4,7 +4,7 @@
 
 Aplicação **SPA (Single Page Application)** do projeto Avatar Inteligente da SoulUp, desenvolvida na **Sprint 04** da disciplina Front-End Design Engineering. O "Avatar Inteligente" é o mascote digital da SoulUp, e os "Avatares Personalizáveis" permitem que cada usuário customize seu próprio avatar com acessórios desbloqueados pelo uso do aplicativo.
 
-Nesta etapa, o front-end consome a **API REST em Java (Domain Driven Design)** publicada na nuvem: é possível fazer login, consultar a loja de itens, ver o detalhe de cada item, comprar itens com os pontos do usuário e acompanhar o próprio perfil e inventário.
+Nesta etapa, o front-end consome a **API REST em Java** publicada na nuvem: é possível fazer login, consultar a loja de itens, ver o detalhe de cada item, comprar itens com os pontos do usuário e acompanhar o próprio perfil e inventário.
 
 ## Tecnologias utilizadas
 
@@ -104,7 +104,7 @@ npm install
 
 # 2. Criar o arquivo de variáveis de ambiente
 cp .env.example .env
-# Para usar a API local, mantenha VITE_API_URL=http://localhost:8080
+# mantenha VITE_API_URL=https://techleet569602.onrender.com
 # (a API precisa estar rodando nessa porta)
 
 # 3. Rodar o servidor de desenvolvimento
@@ -114,18 +114,11 @@ npm run dev
 http://localhost:5173
 ```
 
-Para gerar a versão de produção:
-
-```bash
-npm run build
-npm run preview
-```
 
 ## Como usar
 
-- **Repositório no GitHub:** `https://github.com/DiogoPedrosoAlves/soulup-techleet`
+- **Repositório no GitHub:** `https://github.com/TechleetFiap/soul-challenge-sprint4`
 - **Vídeo de apresentação (YouTube):** `https://youtu.be/hh29Rvpot1c`
-- **Aplicação publicada (Vercel):** `https://SEU-PROJETO.vercel.app`
 - **API publicada (Render):** `https://techleet569602.onrender.com`
 
 Para testar a aplicação publicada, acesse o link da Vercel, abra **Entrar** no canto superior direito e use uma conta cadastrada na API. Depois, visite a **Loja** e escolha um item para comprar.
