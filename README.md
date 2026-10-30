@@ -134,7 +134,7 @@ http://localhost:5173
 ## Como usar
 
 - **Repositório no GitHub:** `https://github.com/TechleetFiap/soul-challenge-sprint4`
-- **Vídeo de apresentação (YouTube):** `https://youtu.be/hh29Rvpot1c`
+- **Vídeo de apresentação (YouTube):** `https://youtu.be/E1nPPeQlZts`
 - **Aplicação publicada (Vercel):** `soul-challenge-sprint4.vercel.app`
 - **API publicada (Render):** `https://techleet569602.onrender.com`
 
