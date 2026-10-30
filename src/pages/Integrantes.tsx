@@ -4,7 +4,7 @@ import { usePageTitle } from "../hooks/usePageTitle";
 import { membros } from "../data/membros";
 
 export default function Integrantes() {
-  usePageTitle("/imagens/IconeUser.png");
+  usePageTitle("Integrantes");
 
   return (
     <Layout>

@@ -4,7 +4,7 @@ import { usePageTitle } from "../hooks/usePageTitle";
 import { solucoes } from "../data/solucoes";
 
 export default function Solucao() {
-  usePageTitle("Solução do Projeto");
+  usePageTitle("Solução");
 
   return (
     <Layout>
