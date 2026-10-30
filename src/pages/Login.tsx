@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
@@ -96,6 +96,13 @@ export default function Login() {
               </p>
             )}
           </form>
+
+          <Link
+            to="/cadastro"
+            className="w-full rounded-full border border-primary bg-transparent px-6 py-3 text-center font-sans text-sm font-medium text-text-light transition-colors hover:bg-primary/20"
+          >
+            Fazer cadastro
+          </Link>
         </Card>
       </section>
     </Layout>

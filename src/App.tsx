@@ -8,6 +8,7 @@ import Contato from "./pages/Contato";
 import Solucao from "./pages/Solucao";
 import SolucaoDetalhe from "./pages/SolucaoDetalhe";
 import Login from "./pages/Login";
+import Cadastro from "./pages/Cadastro";
 import Loja from "./pages/Loja";
 import ItemDetalhe from "./pages/ItemDetalhe";
 import Missoes from "./pages/Missoes";
@@ -25,6 +26,7 @@ export default function App() {
       <Route path="/contato" element={<Contato />} />
       <Route path="/solucao" element={<Solucao />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/cadastro" element={<Cadastro />} />
       <Route path="/loja" element={<Loja />} />
       <Route path="/missoes" element={<Missoes />} />
       <Route path="/perfil" element={<Perfil />} />

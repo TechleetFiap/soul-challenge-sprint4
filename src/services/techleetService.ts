@@ -1,5 +1,5 @@
 import { requisitar } from "./apiClient";
-import type { Usuario } from "../types/usuario";
+import type { NovoUsuario, Usuario } from "../types/usuario";
 import type { Item, ItemVitrine } from "../types/item";
 import type { Inventario, ItemAdquirido } from "../types/inventario";
 import type { Missao, MissaoComSituacao, MissaoUsuario } from "../types/missao";
@@ -15,6 +15,16 @@ export function entrar(email: string, senha: string): Promise<Usuario> {
 
 export function buscarUsuario(id: number): Promise<Usuario> {
   return requisitar<Usuario>(`/usuario/${id}`);
+}
+
+// Cadastro de usuário: POST /techleet/usuario. Não existe rota separada
+// /cadastro ou /register. Não enviamos id (gerado pelo banco) nem pontos
+// (os 100 pontos iniciais são definidos pelo BO).
+export function cadastrarUsuario(dados: NovoUsuario): Promise<Usuario> {
+  return requisitar<Usuario>("/usuario", {
+    method: "POST",
+    body: JSON.stringify(dados),
+  });
 }
 
 // ---------- Itens ----------

@@ -1,10 +1,11 @@
 import { createContext, useCallback, useMemo, useState, type ReactNode } from "react";
-import { entrar as entrarNaApi } from "../services/techleetService";
-import type { Usuario } from "../types/usuario";
+import { cadastrarUsuario, entrar as entrarNaApi } from "../services/techleetService";
+import type { NovoUsuario, Usuario } from "../types/usuario";
 
 export interface AuthContextValue {
   usuario: Usuario | null;
   entrar: (email: string, senha: string) => Promise<Usuario>;
+  cadastrar: (dados: NovoUsuario) => Promise<Usuario>;
   sair: () => void;
   atualizarUsuario: (usuario: Usuario) => void;
 }
@@ -40,6 +41,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return dados;
   }, []);
 
+  // O cadastro (POST /techleet/usuario) já devolve o ID preenchido, então
+  // aproveitamos a resposta para logar o usuário automaticamente, sem exigir
+  // uma segunda chamada a /usuario/login.
+  const cadastrar = useCallback(async (dados: NovoUsuario) => {
+    const criado = await cadastrarUsuario(dados);
+    salvarUsuario(criado);
+    setUsuario(criado);
+    return criado;
+  }, []);
+
   const sair = useCallback(() => {
     salvarUsuario(null);
     setUsuario(null);
@@ -51,8 +62,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const valor = useMemo(
-    () => ({ usuario, entrar, sair, atualizarUsuario }),
-    [usuario, entrar, sair, atualizarUsuario]
+    () => ({ usuario, entrar, cadastrar, sair, atualizarUsuario }),
+    [usuario, entrar, cadastrar, sair, atualizarUsuario]
   );
 
   return <AuthContext.Provider value={valor}>{children}</AuthContext.Provider>;
