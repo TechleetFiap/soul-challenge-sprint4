@@ -1,12 +1,16 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import RotaProtegida from "../components/auth/RotaProtegida";
+import EditarPerfilForm from "../components/perfil/EditarPerfilForm";
+import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
 import { EstadoCarregando, EstadoErro, EstadoVazio } from "../components/ui/Estados";
 import { useApi } from "../hooks/useApi";
 import { useAuth } from "../hooks/useAuth";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { buscarUsuario, carregarItensDoUsuario } from "../services/techleetService";
+import type { Feedback } from "../types/requisicao";
 import type { Usuario } from "../types/usuario";
 
 // "AAAA-MM-DD" vira "DD/MM/AAAA"
@@ -25,6 +29,15 @@ function PerfilConteudo({ usuario }: { usuario: Usuario }) {
     [usuario.id]
   );
 
+  const [editando, setEditando] = useState<boolean>(false);
+  const [feedback, setFeedback] = useState<Feedback | null>(null);
+
+  function aoSalvar() {
+    setEditando(false);
+    setFeedback({ tipo: "sucesso", texto: "Dados atualizados com sucesso!" });
+    recarregarUsuario(); // busca o usuário de novo (saldo de pontos incluído)
+  }
+
   return (
     <Layout>
       <section className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-12">
@@ -34,14 +47,48 @@ function PerfilConteudo({ usuario }: { usuario: Usuario }) {
         {estadoUsuario.status === "error" && (
           <EstadoErro mensagem={estadoUsuario.message} onTentar={recarregarUsuario} />
         )}
+        {feedback && (
+          <p
+            role={feedback.tipo === "erro" ? "alert" : "status"}
+            className={`rounded-lg px-4 py-3 text-center font-sans text-sm ${
+              feedback.tipo === "sucesso" ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"
+            }`}
+          >
+            {feedback.texto}
+          </p>
+        )}
+
         {estadoUsuario.status === "success" && (
           <Card className="flex flex-col items-center gap-2 text-secondary">
-            <h3 className="font-sans text-xl font-bold">{estadoUsuario.data.nome}</h3>
-            <p className="font-sans text-sm text-slate-500">{estadoUsuario.data.email}</p>
-            <p className="font-sans text-sm text-slate-500">
-              Nascimento: {formatarData(estadoUsuario.data.dataNascimento)}
-            </p>
-            <p className="pt-2 font-sans text-2xl font-bold">{estadoUsuario.data.pontos} pts</p>
+            {editando ? (
+              <>
+                <h3 className="font-sans text-xl font-bold">Atualizar dados</h3>
+                <EditarPerfilForm
+                  usuario={estadoUsuario.data}
+                  onSalvo={aoSalvar}
+                  onCancelar={() => setEditando(false)}
+                />
+              </>
+            ) : (
+              <>
+                <h3 className="font-sans text-xl font-bold">{estadoUsuario.data.nome}</h3>
+                <p className="font-sans text-sm text-slate-500">{estadoUsuario.data.email}</p>
+                <p className="font-sans text-sm text-slate-500">
+                  Nascimento: {formatarData(estadoUsuario.data.dataNascimento)}
+                </p>
+                <p className="pt-2 font-sans text-2xl font-bold">{estadoUsuario.data.pontos} pts</p>
+                <Button
+                  variante="secundaria"
+                  className="mt-2 !text-secondary"
+                  onClick={() => {
+                    setFeedback(null);
+                    setEditando(true);
+                  }}
+                >
+                  Atualizar dados
+                </Button>
+              </>
+            )}
           </Card>
         )}
 
