@@ -27,7 +27,7 @@ export default function MembroDetalhe() {
           <p className="mb-6 font-sans text-text-footer">
             Não encontramos nenhum integrante com o identificador "{id}".
           </p>
-          <Button onClick={() => navigate("/integrantes")}>
+          <Button onClick={() => navigate("/integrantes")} className="">
             Voltar para a equipe
           </Button>
         </section>
@@ -67,7 +67,7 @@ export default function MembroDetalhe() {
               LinkedIn
             </a>
           </div>
-          <Button variante="secundaria" onClick={() => navigate("/integrantes")} className="text-[#64748B]">
+          <Button variante="secundaria" onClick={() => navigate("/integrantes")} className="text-[#64748B] rounded-full px-6 py-3 font-sans text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60 bg-transparent border border-primary text-text-light hover:bg-primary/20 -mt-2 !text-secondary">
             ← Voltar para a equipe
           </Button>
         </Card>
