@@ -1,5 +1,10 @@
-import { requisitar } from "./apiClient";
-import type { NovoUsuario, Usuario } from "../types/usuario";
+import { ApiError, requisitar } from "./apiClient";
+import type {
+  AtualizacaoUsuarioPayload,
+  DadosCadastraisUsuario,
+  NovoUsuario,
+  Usuario,
+} from "../types/usuario";
 import type { Item, ItemVitrine } from "../types/item";
 import type { Inventario, ItemAdquirido } from "../types/inventario";
 import type { Missao, MissaoComSituacao, MissaoUsuario } from "../types/missao";
@@ -25,6 +30,37 @@ export function cadastrarUsuario(dados: NovoUsuario): Promise<Usuario> {
     method: "POST",
     body: JSON.stringify(dados),
   });
+}
+
+// PUT /techleet/usuario/{id}. Não envia pontos: o back-end preserva o saldo existente.
+export function atualizarUsuario(id: number, dados: AtualizacaoUsuarioPayload): Promise<unknown> {
+  return requisitar<unknown>(`/usuario/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(dados),
+  });
+}
+
+// Atualiza o cadastro do usuário logado e devolve os dados já atualizados.
+// 1) A API não tem sessão/token, então a senha atual é conferida pelo login antes de gravar.
+// 2) Se não houver nova senha, reenvia a atual (o PUT exige o cadastro completo).
+// 3) Consulta o usuário de novo para exibir o que o back-end realmente salvou (inclusive os pontos).
+export async function atualizarPerfil(
+  usuario: Usuario,
+  dados: DadosCadastraisUsuario,
+  senhaAtual: string,
+  novaSenha?: string
+): Promise<Usuario> {
+  try {
+    await entrar(usuario.email, senhaAtual);
+  } catch (erro) {
+    if (erro instanceof ApiError && erro.status === 400) {
+      throw new Error("Senha atual incorreta.");
+    }
+    throw erro;
+  }
+
+  await atualizarUsuario(usuario.id, { ...dados, senha: novaSenha || senhaAtual });
+  return buscarUsuario(usuario.id);
 }
 
 // ---------- Itens ----------

@@ -26,3 +26,16 @@ export interface NovoUsuario {
 export interface CadastroFormData extends NovoUsuario {
   confirmarSenha: string;
 }
+
+// Dados cadastrais que o usuário pode editar (o saldo de pontos não faz parte: o back-end o preserva).
+export type DadosCadastraisUsuario = Pick<Usuario, "nome" | "email" | "dataNascimento">;
+
+// Corpo enviado em PUT /techleet/usuario/{id}: dados cadastrais + senha (intersection type).
+export type AtualizacaoUsuarioPayload = DadosCadastraisUsuario & { senha: string };
+
+// Campos do formulário "Atualizar dados" na tela Meu perfil.
+export interface AtualizarPerfilForm extends DadosCadastraisUsuario {
+  senhaAtual: string;
+  novaSenha: string;
+  confirmarNovaSenha: string;
+}

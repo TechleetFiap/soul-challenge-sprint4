@@ -45,7 +45,7 @@ export default function Login() {
     <Layout>
       <section className="mx-auto max-w-md px-4 py-12">
         <Card className="flex flex-col gap-4 text-secondary">
-          <h2 className="font-sans text-2xl font-bold">Entrar</h2>
+          <h2 className="font-sans text-2xl font-bold ">Entrar</h2>
 
           {origem.mensagem && (
             <p className="rounded-lg bg-amber-50 px-4 py-3 text-left font-sans text-sm text-amber-800">
@@ -99,7 +99,7 @@ export default function Login() {
 
           <Link
             to="/cadastro"
-            className="w-full rounded-full border border-primary bg-transparent px-6 py-3 text-center font-sans text-sm font-medium text-text-light transition-colors hover:bg-primary/20"
+            className="rounded-full px-6 py-3 font-sans text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60 bg-transparent border border-primary text-text-light hover:bg-primary/20 -mt-2 !text-secondary"
           >
             Fazer cadastro
           </Link>

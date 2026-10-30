@@ -79,7 +79,9 @@ async function executar<T>(caminho: string, opcoes: RequestInit): Promise<T> {
     return undefined as T;
   }
 
-  return (await res.json()) as T;
+  // Alguns PUT/POST respondem 201 sem corpo; ler como texto evita erro de JSON vazio.
+  const corpo = await res.text();
+  return (corpo ? JSON.parse(corpo) : undefined) as T;
 }
 
 export function mensagemDeErro(erro: unknown): string {
