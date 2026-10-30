@@ -131,7 +131,7 @@ export default function ItemDetalhe() {
             >
               {jaComprado ? "Já está no seu inventário" : comprando ? "Comprando..." : "Comprar"}
             </Button>
-            <Button variante="secundaria" onClick={() => navigate("/loja")} className="text-[#64748B]">
+            <Button variante="secundaria" onClick={() => navigate("/loja")} className="text-[#64748B] rounded-full px-6 py-3 font-sans text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60 bg-transparent border border-primary text-text-light hover:bg-primary/20 -mt-2 !text-secondary">
               ← Voltar para a loja
             </Button>
           </div>
