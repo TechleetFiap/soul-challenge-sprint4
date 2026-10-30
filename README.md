@@ -4,7 +4,7 @@
 
 Aplicação **SPA (Single Page Application)** do projeto Avatar Inteligente da SoulUp, desenvolvida na **Sprint 04** da disciplina Front-End Design Engineering. O "Avatar Inteligente" é o mascote digital da SoulUp, e os "Avatares Personalizáveis" permitem que cada usuário customize seu próprio avatar com acessórios desbloqueados pelo uso do aplicativo.
 
-Nesta etapa, o front-end consome a **API REST em Java (Domain Driven Design)** publicada na nuvem: é possível fazer login, consultar a loja de itens, ver o detalhe de cada item, comprar itens com os pontos do usuário e acompanhar o próprio perfil e inventário.
+Nesta etapa, o front-end consome a **API REST em Java (Domain Driven Design)** publicada na nuvem: é possível criar conta, fazer login, consultar a loja de itens, ver o detalhe de cada item, comprar itens com os pontos do usuário, completar missões, e acompanhar, atualizar ou excluir o próprio perfil e inventário.
 
 ## Tecnologias utilizadas
 
@@ -35,12 +35,13 @@ soul-challenge-sprint4/
 │   │   ├── loja/                 # ItemCard
 │   │   ├── membros/              # MembroCard
 │   │   ├── missoes/              # MissaoCard (com botão de concluir)
+│   │   ├── perfil/               # EditarPerfilForm e ExcluirPerfilForm (confirmam a senha atual)
 │   │   ├── ui/                   # Button, Card, Estados (loading, erro e vazio)
 │   │   └── ErrorBoundary.tsx     # evita tela em branco em erros inesperados
 │   ├── context/                  # AuthContext (estado de login)
 │   ├── data/                     # dados estáticos (membros, faq, soluções)
 │   ├── hooks/                    # useApi, useAuth, usePageTitle
-│   ├── pages/                    # uma página por rota (Home, Loja, Missões, Perfil...)
+│   ├── pages/                    # uma página por rota (Home, Loja, Missões, Cadastro, Perfil...)
 │   ├── services/                 # apiClient (HTTP central) e techleetService (endpoints)
 │   ├── types/                    # tipos e interfaces (usuario, item, inventario, missao, requisicao)
 │   ├── App.tsx                   # definição das rotas
@@ -61,8 +62,11 @@ A API é consumida pelo `src/services/techleetService.ts`, que usa o cliente HTT
 
 | Operação | Método | Endpoint | Onde aparece |
 | --- | --- | --- | --- |
-| Login | POST | `/techleet/usuario/login` | Página Entrar |
+| **Cadastrar usuário** | **POST** | `/techleet/usuario` | Página Cadastro |
+| Login | POST | `/techleet/usuario/login` | Página Entrar e reconfirmação de senha (editar/excluir perfil) |
 | Consultar usuário | GET | `/techleet/usuario/{id}` | Perfil |
+| **Atualizar usuário** | **PUT** | `/techleet/usuario/{id}` | Perfil → Atualizar dados |
+| **Excluir usuário** | **DELETE** | `/techleet/usuario/{id}` | Perfil → Deletar cadastro |
 | Listar itens | GET | `/techleet/item` | Loja |
 | Consultar item | GET | `/techleet/item/{id}` | Detalhe do item |
 | Listar inventário | GET | `/techleet/inventario` | Loja e detalhe do item |
@@ -80,6 +84,8 @@ Cada tela trata três estados, exibidos pelos componentes de `src/components/ui/
 
 As respostas são tipadas com interfaces em `src/types`, e o estado de cada requisição é modelado por um union type (`ApiState`).
 
+Como a API não usa sessão nem token (o login só confirma a credencial e devolve os dados do usuário), a tela de perfil reconfirma a senha atual via `POST /techleet/usuario/login` antes de executar o `PUT` (atualizar dados) ou o `DELETE` (excluir cadastro), evitando que a sessão salva no navegador seja suficiente para alterar ou apagar a conta sem a senha.
+
 ## Rotas da aplicação
 
 | Rota | Página | Tipo |
@@ -94,12 +100,15 @@ As respostas são tipadas com interfaces em `src/types`, e o estado de cada requ
 | `/loja/:id` | Detalhe do item e compra (via API) | Dinâmica (`useParams`) |
 | `/missoes` | Missões disponíveis, com botão de concluir (via API) | Estática |
 | `/login` | Entrada do usuário | Estática |
-| `/perfil` | Perfil e inventário (exige login) | Estática, protegida |
+| `/cadastro` | Criação de conta (via API) | Estática |
+| `/perfil` | Perfil e inventário — visualizar, atualizar e excluir cadastro (exige login) | Estática, protegida |
 | `/faq` | Perguntas frequentes | Estática |
 | `/contato` | Formulário de contato | Estática |
 | `*` | Página não encontrada (404) | Fallback |
 
-O botão **Entrar** fica no canto superior direito do cabeçalho. Depois do login, ele dá lugar ao nome do usuário e ao botão **Sair**. Tentar comprar sem estar logado redireciona para `/login` com uma mensagem, e o usuário volta para o item após entrar.
+O botão **Entrar** fica no canto superior direito do cabeçalho. Depois do login, ele dá lugar ao nome do usuário e ao botão **Sair**. Tentar comprar ou concluir uma missão sem estar logado redireciona para `/login` com uma mensagem, e o usuário volta à página de origem após entrar. Quem ainda não tem conta pode criar uma pelo link **Fazer cadastro**, na própria tela de login.
+
+Na página **Meu perfil**, os botões **Atualizar dados** e **Deletar cadastro** abrem formulários que pedem a senha atual antes de confirmar a alteração ou a exclusão.
 
 ## Como executar localmente
 
