@@ -63,6 +63,26 @@ export async function atualizarPerfil(
   return buscarUsuario(usuario.id);
 }
 
+// DELETE /techleet/usuario/{id}: responde 204 sem corpo (ou 404 se o usuário não existe).
+export function excluirUsuario(id: number): Promise<void> {
+  return requisitar<void>(`/usuario/${id}`, { method: "DELETE" });
+}
+
+// Exclui o cadastro do usuário logado. Como a API não usa sessão/token, a senha
+// é conferida pelo login antes de apagar, para evitar exclusão por engano.
+export async function excluirPerfil(usuario: Usuario, senha: string): Promise<void> {
+  try {
+    await entrar(usuario.email, senha);
+  } catch (erro) {
+    if (erro instanceof ApiError && erro.status === 400) {
+      throw new Error("Senha incorreta.");
+    }
+    throw erro;
+  }
+
+  await excluirUsuario(usuario.id);
+}
+
 // ---------- Itens ----------
 
 export function listarItens(): Promise<Item[]> {

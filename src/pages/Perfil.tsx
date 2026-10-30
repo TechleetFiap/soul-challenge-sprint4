@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import RotaProtegida from "../components/auth/RotaProtegida";
 import EditarPerfilForm from "../components/perfil/EditarPerfilForm";
+import ExcluirPerfilForm from "../components/perfil/ExcluirPerfilForm";
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
 import { EstadoCarregando, EstadoErro, EstadoVazio } from "../components/ui/Estados";
@@ -19,6 +20,8 @@ function formatarData(iso: string): string {
   return partes.length === 3 ? partes.reverse().join("/") : iso;
 }
 
+type Modo = "visualizando" | "editando" | "excluindo";
+
 function PerfilConteudo({ usuario }: { usuario: Usuario }) {
   const { estado: estadoUsuario, recarregar: recarregarUsuario } = useApi(
     () => buscarUsuario(usuario.id),
@@ -29,13 +32,21 @@ function PerfilConteudo({ usuario }: { usuario: Usuario }) {
     [usuario.id]
   );
 
-  const [editando, setEditando] = useState<boolean>(false);
+  const { sair } = useAuth();
+  const navigate = useNavigate();
+  const [modo, setModo] = useState<Modo>("visualizando");
   const [feedback, setFeedback] = useState<Feedback | null>(null);
 
   function aoSalvar() {
-    setEditando(false);
+    setModo("visualizando");
     setFeedback({ tipo: "sucesso", texto: "Dados atualizados com sucesso!" });
     recarregarUsuario(); // busca o usuário de novo (saldo de pontos incluído)
+  }
+
+  // Cadastro excluído na API: encerra a sessão local e volta para a página inicial.
+  function aoExcluir() {
+    sair();
+    navigate("/", { replace: true });
   }
 
   return (
@@ -60,16 +71,29 @@ function PerfilConteudo({ usuario }: { usuario: Usuario }) {
 
         {estadoUsuario.status === "success" && (
           <Card className="flex flex-col items-center gap-2 text-secondary">
-            {editando ? (
+            {modo === "editando" && (
               <>
                 <h3 className="font-sans text-xl font-bold">Atualizar dados</h3>
                 <EditarPerfilForm
                   usuario={estadoUsuario.data}
                   onSalvo={aoSalvar}
-                  onCancelar={() => setEditando(false)}
+                  onCancelar={() => setModo("visualizando")}
                 />
               </>
-            ) : (
+            )}
+
+            {modo === "excluindo" && (
+              <>
+                <h3 className="font-sans text-xl font-bold">Deletar cadastro</h3>
+                <ExcluirPerfilForm
+                  usuario={estadoUsuario.data}
+                  onExcluido={aoExcluir}
+                  onCancelar={() => setModo("visualizando")}
+                />
+              </>
+            )}
+
+            {modo === "visualizando" && (
               <>
                 <h3 className="font-sans text-xl font-bold">{estadoUsuario.data.nome}</h3>
                 <p className="font-sans text-sm text-slate-500">{estadoUsuario.data.email}</p>
@@ -77,16 +101,27 @@ function PerfilConteudo({ usuario }: { usuario: Usuario }) {
                   Nascimento: {formatarData(estadoUsuario.data.dataNascimento)}
                 </p>
                 <p className="pt-2 font-sans text-2xl font-bold">{estadoUsuario.data.pontos} pts</p>
-                <Button
-                  variante="secundaria"
-                  className="mt-2 !text-secondary"
-                  onClick={() => {
-                    setFeedback(null);
-                    setEditando(true);
-                  }}
-                >
-                  Atualizar dados
-                </Button>
+                <div className="mt-2 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
+                  <Button
+                    variante="secundaria"
+                    className="!text-secondary"
+                    onClick={() => {
+                      setFeedback(null);
+                      setModo("editando");
+                    }}
+                  >
+                    Atualizar dados
+                  </Button>
+                  <Button
+                    variante="perigo"
+                    onClick={() => {
+                      setFeedback(null);
+                      setModo("excluindo");
+                    }}
+                  >
+                    Deletar cadastro
+                  </Button>
+                </div>
               </>
             )}
           </Card>
