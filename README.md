@@ -134,7 +134,7 @@ http://localhost:5173
 
 - **Repositório no GitHub:** `https://github.com/TechleetFiap/soul-challenge-sprint4`
 - **Vídeo de apresentação (YouTube):** `https://youtu.be/E1nPPeQlZts`
-- **Aplicação publicada (Vercel):** `soul-challenge-sprint4.vercel.app`
+- **Aplicação publicada (Vercel):** `https://soul-challenge-sprint4.vercel.app`
 - **API publicada (Render):** `https://techleet569602.onrender.com`
 
 Para testar a aplicação publicada, acesse o link da Vercel, abra **Entrar** no canto superior direito e use uma conta cadastrada na API. Depois, visite a **Loja** e escolha um item para comprar.
