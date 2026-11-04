@@ -165,7 +165,7 @@ As fotos de cada integrante também aparecem na página **Integrantes** e no per
 | <img src="public/imagens/TechLeet.png" width="60" />      | Logo da equipe TechLeet (rodapé)        |
 | <img src="public/imagens/SoulUp.png" width="60" />        | Logo da empresa SoulUp (rodapé)         |
 
-Todos os arquivos de imagem do projeto estão em `public/imagens/`
+Todos os arquivos de imagem do projeto estão em `public/imagens/`..
 
 ## Contato
 
