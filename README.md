@@ -60,21 +60,21 @@ soul-challenge-sprint4/
 
 A API é consumida pelo `src/services/techleetService.ts`, que usa o cliente HTTP de `src/services/apiClient.ts`. As telas nunca chamam o `fetch` diretamente.
 
-| Operação | Método | Endpoint | Onde aparece |
-| --- | --- | --- | --- |
-| **Cadastrar usuário** | **POST** | `/techleet/usuario` | Página Cadastro |
-| Login | POST | `/techleet/usuario/login` | Página Entrar e reconfirmação de senha (editar/excluir perfil) |
-| Consultar usuário | GET | `/techleet/usuario/{id}` | Perfil |
-| **Atualizar usuário** | **PUT** | `/techleet/usuario/{id}` | Perfil → Atualizar dados |
-| **Excluir usuário** | **DELETE** | `/techleet/usuario/{id}` | Perfil → Deletar cadastro |
-| Listar itens | GET | `/techleet/item` | Loja |
-| Consultar item | GET | `/techleet/item/{id}` | Detalhe do item |
-| Listar inventário | GET | `/techleet/inventario` | Loja e detalhe do item |
-| **Comprar item** | **POST** | `/techleet/inventario` | Detalhe do item |
-| Listar missões | GET | `/techleet/missao` | Missões |
-| Listar vínculos de missão | GET | `/techleet/missaoUsuario` | Missões |
-| **Vincular missão ao usuário** | **POST** | `/techleet/missaoUsuario` | Missões (ao concluir) |
-| **Concluir missão** | **PUT** | `/techleet/missaoUsuario/{id}` | Missões |
+| Operação                       | Método     | Endpoint                       | Onde aparece                                                   |
+| ------------------------------ | ---------- | ------------------------------ | -------------------------------------------------------------- |
+| **Cadastrar usuário**          | **POST**   | `/techleet/usuario`            | Página Cadastro                                                |
+| Login                          | POST       | `/techleet/usuario/login`      | Página Entrar e reconfirmação de senha (editar/excluir perfil) |
+| Consultar usuário              | GET        | `/techleet/usuario/{id}`       | Perfil                                                         |
+| **Atualizar usuário**          | **PUT**    | `/techleet/usuario/{id}`       | Perfil → Atualizar dados                                       |
+| **Excluir usuário**            | **DELETE** | `/techleet/usuario/{id}`       | Perfil → Deletar cadastro                                      |
+| Listar itens                   | GET        | `/techleet/item`               | Loja                                                           |
+| Consultar item                 | GET        | `/techleet/item/{id}`          | Detalhe do item                                                |
+| Listar inventário              | GET        | `/techleet/inventario`         | Loja e detalhe do item                                         |
+| **Comprar item**               | **POST**   | `/techleet/inventario`         | Detalhe do item                                                |
+| Listar missões                 | GET        | `/techleet/missao`             | Missões                                                        |
+| Listar vínculos de missão      | GET        | `/techleet/missaoUsuario`      | Missões                                                        |
+| **Vincular missão ao usuário** | **POST**   | `/techleet/missaoUsuario`      | Missões (ao concluir)                                          |
+| **Concluir missão**            | **PUT**    | `/techleet/missaoUsuario/{id}` | Missões                                                        |
 
 Cada tela trata três estados, exibidos pelos componentes de `src/components/ui/Estados.tsx`:
 
@@ -88,23 +88,23 @@ Como a API não usa sessão nem token (o login só confirma a credencial e devol
 
 ## Rotas da aplicação
 
-| Rota | Página | Tipo |
-| --- | --- | --- |
-| `/` | Home | Estática |
-| `/sobre` | Sobre o Projeto | Estática |
-| `/integrantes` | Lista da equipe | Estática |
-| `/integrantes/:id` | Perfil de um integrante | Dinâmica (`useParams`) |
-| `/solucao` | Lista das soluções do projeto | Estática |
-| `/solucao/:id` | Detalhe de uma solução | Dinâmica (`useParams`) |
-| `/loja` | Loja de itens (listagem via API) | Estática |
-| `/loja/:id` | Detalhe do item e compra (via API) | Dinâmica (`useParams`) |
-| `/missoes` | Missões disponíveis, com botão de concluir (via API) | Estática |
-| `/login` | Entrada do usuário | Estática |
-| `/cadastro` | Criação de conta (via API) | Estática |
-| `/perfil` | Perfil e inventário — visualizar, atualizar e excluir cadastro (exige login) | Estática, protegida |
-| `/faq` | Perguntas frequentes | Estática |
-| `/contato` | Formulário de contato | Estática |
-| `*` | Página não encontrada (404) | Fallback |
+| Rota               | Página                                                                       | Tipo                   |
+| ------------------ | ---------------------------------------------------------------------------- | ---------------------- |
+| `/`                | Home                                                                         | Estática               |
+| `/sobre`           | Sobre o Projeto                                                              | Estática               |
+| `/integrantes`     | Lista da equipe                                                              | Estática               |
+| `/integrantes/:id` | Perfil de um integrante                                                      | Dinâmica (`useParams`) |
+| `/solucao`         | Lista das soluções do projeto                                                | Estática               |
+| `/solucao/:id`     | Detalhe de uma solução                                                       | Dinâmica (`useParams`) |
+| `/loja`            | Loja de itens (listagem via API)                                             | Estática               |
+| `/loja/:id`        | Detalhe do item e compra (via API)                                           | Dinâmica (`useParams`) |
+| `/missoes`         | Missões disponíveis, com botão de concluir (via API)                         | Estática               |
+| `/login`           | Entrada do usuário                                                           | Estática               |
+| `/cadastro`        | Criação de conta (via API)                                                   | Estática               |
+| `/perfil`          | Perfil e inventário — visualizar, atualizar e excluir cadastro (exige login) | Estática, protegida    |
+| `/faq`             | Perguntas frequentes                                                         | Estática               |
+| `/contato`         | Formulário de contato                                                        | Estática               |
+| `*`                | Página não encontrada (404)                                                  | Fallback               |
 
 O botão **Entrar** fica no canto superior direito do cabeçalho. Depois do login, ele dá lugar ao nome do usuário e ao botão **Sair**. Tentar comprar ou concluir uma missão sem estar logado redireciona para `/login` com uma mensagem, e o usuário volta à página de origem após entrar. Quem ainda não tem conta pode criar uma pelo link **Fazer cadastro**, na própria tela de login.
 
@@ -130,7 +130,6 @@ npm run dev
 http://localhost:5173
 ```
 
-
 ## Como usar
 
 - **Repositório no GitHub:** `https://github.com/TechleetFiap/soul-challenge-sprint4`
@@ -144,29 +143,29 @@ Para testar a aplicação publicada, acesse o link da Vercel, abra **Entrar** no
 
 ## Autores e créditos
 
-| Foto | Nome | RM | Turma | GitHub | LinkedIn |
-| --- | --- | --- | --- | --- | --- |
-| <img src="public/imagens/samuel.jpeg" width="60" /> | Samuel Pedroso | 569335 | 1TDSR | [GitHub](https://github.com/OSamuelXavierDev) | [LinkedIn](https://www.linkedin.com/in/samuel-xavier-061434274) |
-| <img src="public/imagens/diogo.jpeg" width="60" /> | Diogo Pedroso Alves | 570024 | 1TDSR | [GitHub](https://github.com/DiogoPedrosoAlves) | [LinkedIn](https://www.linkedin.com/in/diogo-pedroso-alves-895346237/) |
-| <img src="public/imagens/murilo.jpeg" width="60" /> | Murilo Munari Bissiato | 569602 | 1TDSR | [GitHub](https://github.com/murilomunari) | [LinkedIn](https://www.linkedin.com/in/murilomunaribissiato/) |
-| <img src="public/imagens/pedro.jpeg" width="60" /> | Pedro Henrique Toledo Sampaio | 571707 | 1TDSR | [GitHub](https://github.com/PedroSampaio20) | [LinkedIn](https://www.linkedin.com/in/pedro-sampaio2002/) |
-| <img src="public/imagens/felipe.jpeg" width="60" /> | Felipe Ferreira Amado | 572567 | 1TDSR | [GitHub](https://github.com/FelipeFerreiraAmado) | [LinkedIn](https://www.linkedin.com/in/felipe-amado/) |
+| Foto                                                | Nome                          | RM     | Turma | GitHub                                           | LinkedIn                                                               |
+| --------------------------------------------------- | ----------------------------- | ------ | ----- | ------------------------------------------------ | ---------------------------------------------------------------------- |
+| <img src="public/imagens/samuel.jpeg" width="60" /> | Samuel Pedroso                | 569335 | 1TDSR | [GitHub](https://github.com/OSamuelXavierDev)    | [LinkedIn](https://www.linkedin.com/in/samuel-xavier-061434274)        |
+| <img src="public/imagens/diogo.jpeg" width="60" />  | Diogo Pedroso Alves           | 570024 | 1TDSR | [GitHub](https://github.com/DiogoPedrosoAlves)   | [LinkedIn](https://www.linkedin.com/in/diogo-pedroso-alves-895346237/) |
+| <img src="public/imagens/murilo.jpeg" width="60" /> | Murilo Munari Bissiato        | 569602 | 1TDSR | [GitHub](https://github.com/murilomunari)        | [LinkedIn](https://www.linkedin.com/in/murilomunaribissiato/)          |
+| <img src="public/imagens/pedro.jpeg" width="60" />  | Pedro Henrique Toledo Sampaio | 571707 | 1TDSR | [GitHub](https://github.com/PedroSampaio20)      | [LinkedIn](https://www.linkedin.com/in/pedro-sampaio2002/)             |
+| <img src="public/imagens/felipe.jpeg" width="60" /> | Felipe Ferreira Amado         | 572567 | 1TDSR | [GitHub](https://github.com/FelipeFerreiraAmado) | [LinkedIn](https://www.linkedin.com/in/felipe-amado/)                  |
 
 As fotos de cada integrante também aparecem na página **Integrantes** e no perfil individual de cada membro (`/integrantes/:id`).
 
 ## Imagens e ícones do projeto
 
-| Ícone/Imagem | Uso |
-| --- | --- |
-| <img src="public/imagens/AvatarSoulUp.png" width="50" /> | Mascote / Avatar Inteligente da SoulUp |
-| <img src="public/imagens/AvatarF-Base.jpg" width="50" /> | Base do Avatar Personalizável |
-| <img src="public/imagens/IconeHome.png" width="30" /> | Favicon da Home |
-| <img src="public/imagens/IconeUser.png" width="30" /> | Favicon das páginas Sobre / Integrantes |
-| <img src="public/imagens/IconeTelefone.png" width="30" /> | Favicon da página Contato |
-| <img src="public/imagens/TechLeet.png" width="60" /> | Logo da equipe TechLeet (rodapé) |
-| <img src="public/imagens/SoulUp.png" width="60" /> | Logo da empresa SoulUp (rodapé) |
+| Ícone/Imagem                                              | Uso                                     |
+| --------------------------------------------------------- | --------------------------------------- |
+| <img src="public/imagens/AvatarSoulUp.png" width="50" />  | Mascote / Avatar Inteligente da SoulUp  |
+| <img src="public/imagens/AvatarF-Base.jpg" width="50" />  | Base do Avatar Personalizável           |
+| <img src="public/imagens/IconeHome.png" width="30" />     | Favicon da Home                         |
+| <img src="public/imagens/IconeUser.png" width="30" />     | Favicon das páginas Sobre / Integrantes |
+| <img src="public/imagens/IconeTelefone.png" width="30" /> | Favicon da página Contato               |
+| <img src="public/imagens/TechLeet.png" width="60" />      | Logo da equipe TechLeet (rodapé)        |
+| <img src="public/imagens/SoulUp.png" width="60" />        | Logo da empresa SoulUp (rodapé)         |
 
-Todos os arquivos de imagem do projeto estão em `public/imagens/`.
+Todos os arquivos de imagem do projeto estão em `public/imagens/`
 
 ## Contato
 
