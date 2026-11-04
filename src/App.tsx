@@ -18,7 +18,7 @@ import NotFound from "./pages/NotFound";
 export default function App() {
   return (
     <Routes>
-      {/* Rotass estáticas */}
+      {/* Rotas estáticas */}
       <Route path="/" element={<Home />} />
       <Route path="/sobre" element={<Sobre />} />
       <Route path="/integrantes" element={<Integrantes />} />
