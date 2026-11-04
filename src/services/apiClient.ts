@@ -3,7 +3,8 @@
 const PREFIXO_API = "/techleet";
 
 const CABECALHOS: HeadersInit = {
-  
+  Accept: "application/json",
+  "Content-Type": "application/json",
 };
 
 export class ApiError extends Error {
