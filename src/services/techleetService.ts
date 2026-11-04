@@ -15,6 +15,7 @@ export function entrar(email: string, senha: string): Promise<Usuario> {
   return requisitar<Usuario>("/usuario/login", {
     method: "POST",
     body: JSON.stringify({ email, senha }),
+    
   });
 }
 
