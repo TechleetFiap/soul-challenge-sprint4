@@ -6,7 +6,7 @@ export interface Item {
   nome: string;
   modelo: string;
   valorPontos: number;
-  
+  tipo: TipoItem;
 }
 
 // Tipo interseção: um Item acrescido do status calculado para o usuário logado.
